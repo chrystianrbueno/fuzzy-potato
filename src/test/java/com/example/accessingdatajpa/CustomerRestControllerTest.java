@@ -1,6 +1,5 @@
 package com.example.accessingdatajpa;
 
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.jupiter.api.Test;
@@ -20,14 +19,27 @@ class CustomerRestControllerTest {
 
 	@Test
 	void testGetAllCustomersSuccess() throws Exception {
+		//TODO O MOCK DO REPOSITORIO VAI RETORNAR UM OBJETO BREAKING BAD
+		//TODO DEVE RETORNAR UM ID1 E O FIRST NAME walter white
 		mvc.perform(MockMvcRequestBuilders
 				.get("/api/customers")
 					.accept(MediaType.APPLICATION_JSON))
 					.andExpect(status().isOk())
 					.andExpect(content().contentType("application/json"))
 					.andExpect(jsonPath("$.[0].id").value(1))
-					.andExpect(jsonPath("$.[0].firstName").value("Jack"))
-					.andExpect(jsonPath("$.[0].lastName").value("Bauer"));
+					.andExpect(jsonPath("$.[0].firstName").value("Walter"))
+					.andExpect(jsonPath("$.[0].lastName").value("White"));
 	}
+	
+
+	@Test
+	void testGetAllCustomersNotFound() throws Exception {
+		//TODO QUANDO EX O TESTE O MOCK VAI DIZER QUE O BANCO ESTA VAZIO
+		mvc.perform(MockMvcRequestBuilders
+				.get("/api/customers")
+					.accept(MediaType.APPLICATION_JSON))
+					.andExpect(status().isNotFound());
+	}
+
 
 }
